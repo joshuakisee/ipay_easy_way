@@ -3,6 +3,7 @@ package com.libs.ipay.testlib;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,8 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v7.app.AlertDialog;
 
 
 public class CardChannel extends Fragment {
@@ -20,6 +20,8 @@ public class CardChannel extends Fragment {
     private WebView myWebView;
     private TextView oid, total_amount;
     private ProgressDialog progDailog;
+
+    String theUrl;
 
     public CardChannel() {
         // Required empty public constructor
@@ -50,12 +52,20 @@ public class CardChannel extends Fragment {
 
         //get url value passed from channels class (extra)
         Bundle bundle=getArguments();
-        String theUrl = bundle.getString("url");
+        theUrl = bundle.getString("url");
         String oid_text = bundle.getString("oid_text");
         String amount_text = bundle.getString("amount_text");
 
         oid.setText("Order ID: "+oid_text);
         total_amount.setText("Total KES "+amount_text+".00");
+
+        LoadPage();
+
+        return view;
+    }
+
+    private void LoadPage()
+    {
 
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.getSettings().setLoadWithOverviewMode(true);
@@ -75,8 +85,9 @@ public class CardChannel extends Fragment {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
 
-                Toast.makeText(getActivity(), "sorry error occurred! try again", Toast.LENGTH_LONG).show();
-                getActivity().onBackPressed();
+                   dialog();
+
+
             }
             @Override
             public void onPageFinished(WebView view, final String url) {
@@ -90,9 +101,25 @@ public class CardChannel extends Fragment {
 
         myWebView.loadUrl(theUrl);
 
-        return view;
     }
 
+     private void dialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+
+        builder.setMessage("Network error! check network connection and try again.");
+
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                LoadPage();
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.show();
+    }
 
 
 }
