@@ -82,13 +82,29 @@ public class CardChannel extends Fragment {
 
                 return true;
             }
+//            @Override
+//            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+//
+//                   dialog();
+//
+//
+//            }
+
+            @SuppressWarnings("deprecation")
             @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                // Handle the error
+                dialog();
+            }
 
-                   dialog();
-
+            @android.annotation.TargetApi(android.os.Build.VERSION_CODES.M)
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
+                // Redirect to deprecated method, so you can use it in all SDK versions
+                onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
 
             }
+
             @Override
             public void onPageFinished(WebView view, final String url) {
 

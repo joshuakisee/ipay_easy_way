@@ -16,9 +16,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String live = "1";
-        String vid  = "0000";
+        String vid  = "kubamba";
         String cbk  = "http://test.tickets4u.co.ke/ipayAndroidLibraryCbk.php";
-        String key  = "00003";
+        String key  = "!@#Kubamba098";
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

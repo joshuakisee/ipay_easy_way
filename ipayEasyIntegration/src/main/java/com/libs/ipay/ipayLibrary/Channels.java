@@ -91,10 +91,10 @@ public class Channels extends Fragment {
 
         //get url value passed from main class
         Bundle bundle=getArguments();
-        live    = bundle.getString("live", "0");
-        vid     = bundle.getString("vid", "demo");
-        cbk     = bundle.getString("cbk", "");
-        key     = bundle.getString("key", "demo");
+        live    = bundle.getString("live");
+        vid     = bundle.getString("vid" );
+        cbk     = bundle.getString("cbk");
+        key     = bundle.getString("key");
 
         ikey = key;
 
@@ -160,6 +160,8 @@ public class Channels extends Fragment {
                 layout_payment_mbonga.setVisibility(View.GONE);
                 layout_payment_airtel.setVisibility(View.GONE);
                 layout_payments.setVisibility(View.GONE);
+                layout_payment_eazzy.setVisibility(View.GONE);
+
 
             }
         });
@@ -279,6 +281,7 @@ public class Channels extends Fragment {
                 layout_payment_mbonga.setVisibility(View.GONE);
                 layout_payment_airtel.setVisibility(View.GONE);
                 layout_payments.setVisibility(View.GONE);
+                layout_payment_eazzy.setVisibility(View.GONE);
             }
         });
 
@@ -340,10 +343,12 @@ public class Channels extends Fragment {
         airtel_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 layout_channel.setVisibility(View.VISIBLE);
                 layout_payment_mbonga.setVisibility(View.GONE);
                 layout_payment_airtel.setVisibility(View.GONE);
                 layout_payments.setVisibility(View.GONE);
+                layout_payment_eazzy.setVisibility(View.GONE);
             }
         });
 
@@ -434,18 +439,23 @@ public class Channels extends Fragment {
             @Override
             public void onClick(View v) {
                 layout_channel.setVisibility(View.VISIBLE);
+                layout_payment_mbonga.setVisibility(View.GONE);
+                layout_payment_airtel.setVisibility(View.GONE);
                 layout_payments.setVisibility(View.GONE);
-                equity_menu.setVisibility(View.GONE);
+                layout_payment_eazzy.setVisibility(View.GONE);
             }
         });
 
         ezzy_menu_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 layout_channel.setVisibility(View.VISIBLE);
+                layout_payment_mbonga.setVisibility(View.GONE);
+                layout_payment_airtel.setVisibility(View.GONE);
                 layout_payments.setVisibility(View.GONE);
                 layout_payment_eazzy.setVisibility(View.GONE);
-                equity_menu.setVisibility(View.GONE);
+
             }
         });
 
@@ -698,9 +708,11 @@ public class Channels extends Fragment {
                                    oprator = new JSONObject(response);
                                    String txt = oprator.getString("text");
 
-                                   layout_channel.setVisibility(View.VISIBLE);
-                                   layout_payment_mbonga.setVisibility(View.GONE);
-                                   layout_payments.setVisibility(View.GONE);
+                                    layout_channel.setVisibility(View.VISIBLE);
+                                    layout_payment_mbonga.setVisibility(View.GONE);
+                                    layout_payment_airtel.setVisibility(View.GONE);
+                                    layout_payments.setVisibility(View.GONE);
+                                    layout_payment_eazzy.setVisibility(View.GONE);
 
                                    amount.setText("");
                                    email.setText("");
@@ -835,13 +847,13 @@ public class Channels extends Fragment {
 
                     data_string = ilive + ioid + iinv + iamount + itel + ieml + ivid + icurr + icst + icbk;
 
-                        getSeed();
+                    getSeed();
 
                 } else if (ScreenState.toString().equals("eazzy")) {
 
                     data_string = ilive + ioid + iinv + iamount + itel + ieml + ivid + icurr + icst + icbk;
 
-                        getSeed();
+                    getSeed();
 
                 } else if (ScreenState.toString().equals("visa")) {
 
@@ -873,7 +885,10 @@ public class Channels extends Fragment {
                         email.setText("");
 
                         layout_channel.setVisibility(View.VISIBLE);
+                        layout_payment_mbonga.setVisibility(View.GONE);
+                        layout_payment_airtel.setVisibility(View.GONE);
                         layout_payments.setVisibility(View.GONE);
+                        layout_payment_eazzy.setVisibility(View.GONE);
 
                         CardChannel nextFrag = new CardChannel();
                         Bundle data = new Bundle();
@@ -888,9 +903,13 @@ public class Channels extends Fragment {
 
 
                 } else {
+
                     layout_channel.setVisibility(View.VISIBLE);
                     layout_payment_mbonga.setVisibility(View.GONE);
+                    layout_payment_airtel.setVisibility(View.GONE);
                     layout_payments.setVisibility(View.GONE);
+                    layout_payment_eazzy.setVisibility(View.GONE);
+
                 }
             }
 
@@ -901,7 +920,7 @@ public class Channels extends Fragment {
 
     // utility function to covert string to Hex
     private static String bytesToHexString(byte[] bytes) {
-        // http://stackoverflow.com/questions/332079
+
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < bytes.length; i++) {
             String hex = Integer.toHexString(0xFF & bytes[i]);
@@ -948,8 +967,8 @@ public class Channels extends Fragment {
     private void dialog()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
-
-        builder.setMessage("After You get your receipt from MPESA and an SMS confirmation from iPay, \nClick COMPLETE BUTTON below.");
+        String msg = "Didn't get the prompt on your phone? Kindly dial *234*1*6# to force SIM update. For SIM cards more than 2 years old a SIM swap may be necessary.";
+        builder.setMessage(msg+ " \n\n After You get your receipt from MPESA and an SMS confirmation from iPay, \nClick COMPLETE BUTTON below.");
 
         builder.setPositiveButton("COMPLETE", new DialogInterface.OnClickListener() {
             @Override
